@@ -3,7 +3,10 @@ import { getUsers, Register, Login, Logout } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import upload from "../middleware/multer.js";
-import { createUsulanAplikasi } from "../controllers/Usulan.js";
+import {
+  createUsulanAplikasi,
+  getUsulanAplikasi,
+} from "../controllers/Usulan.js";
 
 const router = express.Router();
 
@@ -14,6 +17,7 @@ router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 
 // usulan
+router.get("/usulan", verifyToken, getUsulanAplikasi);
 router.post(
   "/usulan",
   upload.fields([

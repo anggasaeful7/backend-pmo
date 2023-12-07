@@ -95,3 +95,18 @@ export const createUsulanAplikasi = async (req, res) => {
     });
   }
 };
+
+export const getUsulanAplikasi = async (req, res) => {
+  try {
+    const usulan = await Usulan.findAll({
+      where: { deletedAt: null },
+    });
+    res.json({
+      status: "success",
+      message: "Usulan successfully loaded",
+      data: usulan,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
