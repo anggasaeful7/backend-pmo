@@ -14,7 +14,7 @@ export const getUsers = async (req, res) => {
 };
 
 export const Register = async (req, res) => {
-  const { name, email, password, confPassword } = req.body;
+  const { name, email, username, password, confPassword } = req.body;
   if (password !== confPassword)
     return res
       .status(400)
@@ -23,7 +23,8 @@ export const Register = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, salt);
   try {
     await Users.create({
-      name: name,
+      nama: name,
+      username: username,
       email: email,
       password: hashPassword,
     });
@@ -35,46 +36,67 @@ export const Register = async (req, res) => {
 
 export const Login = async (req, res) => {
   try {
-    const user = await Users.findAll({
+    const { username, password } = req.body;
+    const user = await Users.findOne({
       where: {
-        username: req.body.username,
+        username: username,
       },
     });
-    const match = await bcrypt.compare(req.body.password, user[0].password);
-    if (!match) return res.status(400).json({ msg: "Wrong Password" });
-    const userId = user[0].id;
-    const name = user[0].nama;
-    const jabatan = user[0].jabatan;
-    const hak_akses = user[0].hak_akses;
+
+    if (!user) {
+      res.status(400).json({
+        message: "username not found",
+      });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      res.status(400).json({
+        message: "Password not match",
+      });
+    }
+
     const accessToken = jwt.sign(
-      { userId, name, jabatan, hak_akses },
+      {
+        userId: user.id,
+        nama: user.nama,
+        email: user.email,
+        hak_akses: user.hak_akses,
+      },
       process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
+
     const refreshToken = jwt.sign(
-      { userId, name, jabatan, hak_akses },
-      process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: "1d",
-      }
+        userId: user.id,
+        nama: user.nama,
+        email: user.email,
+        hak_akses: user.hak_akses,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "1d" }
     );
+
     await Users.update(
-      { refresh_token: refreshToken },
+      {
+        refresh_token: refreshToken,
+      },
       {
         where: {
-          id: userId,
+          id: user.id,
         },
       }
     );
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken });
+
+    res.status(200).json({ accessToken: accessToken });
   } catch (error) {
-    res.status(404).json({ msg: "Email tidak ditemukan" });
+    console.log(error);
   }
 };
 
