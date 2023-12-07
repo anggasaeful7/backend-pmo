@@ -44,16 +44,17 @@ export const Login = async (req, res) => {
     if (!match) return res.status(400).json({ msg: "Wrong Password" });
     const userId = user[0].id;
     const name = user[0].nama;
+    const jabatan = user[0].jabatan;
     const hak_akses = user[0].hak_akses;
     const accessToken = jwt.sign(
-      { userId, name, hak_akses },
+      { userId, name, jabatan, hak_akses },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "1d",
       }
     );
     const refreshToken = jwt.sign(
-      { userId, name, hak_akses },
+      { userId, name, jabatan, hak_akses },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1d",
