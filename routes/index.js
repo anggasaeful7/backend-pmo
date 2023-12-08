@@ -8,8 +8,13 @@ import {
   deleteUsulanAplikasi,
   getUsulanAplikasi,
   getUsulanAplikasiById,
+  getUsulanWithVerifikasiandUser,
+  getUsulanWithVerifikasiandUserWithTipe,
+  klikDetailUsulan,
+  setujuUsulan,
   showUsulanAplikasi,
 } from "../controllers/Usulan.js";
+import { createVerifikasi } from "../controllers/Verifikasi.js";
 
 const router = express.Router();
 
@@ -31,6 +36,13 @@ router.post(
 );
 router.get("/usulan/:id", getUsulanAplikasiById);
 router.get("/usulan/show", verifyToken, showUsulanAplikasi);
+router.get("/usulanver/:tipe", getUsulanWithVerifikasiandUserWithTipe); //
+router.get("/usulanver", getUsulanWithVerifikasiandUser); //
 router.delete("/usulan/:id", verifyToken, deleteUsulanAplikasi);
+
+// Verifikasi
+router.post("/verifikasi", createVerifikasi);
+router.post("/verifikasi/:id/detail", klikDetailUsulan);
+router.post("/verifikasi/:id/setuju", setujuUsulan);
 
 export default router;

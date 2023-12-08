@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Users from "./UserModel.js";
+import Verifikasi from "./VerifikasiModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -134,6 +136,10 @@ const Usulan = db.define(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
+    domain: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     surat_skpd: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -154,6 +160,7 @@ const Usulan = db.define(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
+
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,

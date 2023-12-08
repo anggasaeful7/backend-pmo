@@ -120,5 +120,5 @@ export const Logout = async (req, res) => {
     }
   );
   res.clearCookie("refreshToken");
-  return res.sendStatus(200);
+  return res.sendStatus(200).json({ message: "Logout Berhasil", status: true });
 };
