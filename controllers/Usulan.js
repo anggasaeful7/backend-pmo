@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import Usulan from "../models/UsulanModel.js";
 import Users from "../models/UserModel.js";
 import Verifikasi from "../models/VerifikasiModel.js";
+import axios from "axios";
 
 export const createUsulanAplikasi = async (req, res) => {
   // `id_user`  , `jenis_pengajuan`  , `nama_aplikasi`  , `latar_belakang`  , `tujuan`  , `kepemilikan`  , `teknis`  , `npengembang1` , `npengembang2` , `lama_pengembangan`  , `sumber_anggaran`  , `besar_anggaran`  , `sumberdanalain` , `kategori_klaster`  , `klaster_lainnya` , `bahasa_pemrograman`  , `bahasa_pemrograman_lainnya` , `jenis_platform`  , `database` (10) , `database_lainnya` , `penyimpanan`  , `lokasi_server` , `lokasi_cloud` , `alasan_penyimpanan`  , `spesifikasi_cpu`  , `spesifikasi_ram`  , `spesifikasi_memory`  , `sumber_data`  , `integrasi`  , `alasan_integrasi`  , `format_penukaran`  , `surat_skpd`  , `lampiran_kak`  , `pertanyaan1`  , `pertanyaan2`  , `pertanyaan3`
@@ -87,6 +88,12 @@ export const createUsulanAplikasi = async (req, res) => {
       pertanyaan3,
       surat_skpd: uploadedFileName,
       lampiran_kak: uploadedFileName2,
+    });
+
+    axios.post("http://localhost:1212/verifikasi", {
+      id_usulan: usulan.id,
+      status: "pending",
+      tipe: "verifikasi administrasi",
     });
 
     res.status(201).json({
