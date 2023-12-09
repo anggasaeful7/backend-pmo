@@ -10,12 +10,12 @@ const Dokumen = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_user: {
+    id_verifikasi: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     tipe: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     nama: {

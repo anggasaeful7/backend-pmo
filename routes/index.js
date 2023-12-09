@@ -15,6 +15,7 @@ import {
   showUsulanAplikasi,
 } from "../controllers/Usulan.js";
 import { createVerifikasi } from "../controllers/Verifikasi.js";
+import { createDokumen } from "../controllers/Dokumen.js";
 
 const router = express.Router();
 
@@ -44,5 +45,8 @@ router.delete("/usulan/:id", verifyToken, deleteUsulanAplikasi);
 router.post("/verifikasi", createVerifikasi);
 router.post("/verifikasi/:id/detail", klikDetailUsulan);
 router.post("/verifikasi/:id/setuju", setujuUsulan);
+
+// Dokumen
+router.post("/dokumen", createDokumen);
 
 export default router;
