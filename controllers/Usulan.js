@@ -216,18 +216,23 @@ export const getUsulanWithVerifikasiandUserWithTipe = async (req, res) => {
 
 export const getUsulanWithVerifikasiandUser = async (req, res) => {
   try {
-    const usulan = await Users.findAll({
+    const usulan = await Usulan.findAll({
       where: { deletedAt: null },
-      attributes: ["id", "nama", "skpd"],
+      attributes: ["id", "createdAt", "updatedAt"],
       include: [
         {
-          model: Usulan,
-          attributes: ["id", "createdAt", "updatedAt"],
-          include: [
-            {
-              model: Verifikasi,
-              attributes: ["id", "status", "tipe", "waktu_verifikasi"],
-            },
+          model: Users,
+          attributes: ["id", "nama", "skpd"],
+        },
+        {
+          model: Verifikasi,
+          attributes: [
+            "id",
+            "status",
+            "tipe",
+            "waktu_verifikasi",
+            "createdAt",
+            "UpdatedAt",
           ],
         },
       ],
