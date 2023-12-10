@@ -10,6 +10,7 @@ import {
   getUsulanAplikasiById,
   getUsulanWithVerifikasiandUser,
   getUsulanWithVerifikasiandUserWithTipe,
+  getUsulanWithVerifikasiandUserbyId,
   klikDetailUsulan,
   setujuUsulan,
   showUsulanAplikasi,
@@ -45,6 +46,7 @@ router.delete("/usulan/:id", verifyToken, deleteUsulanAplikasi);
 router.post("/verifikasi", createVerifikasi);
 router.post("/verifikasi/:id/detail", klikDetailUsulan);
 router.post("/verifikasi/:id/setuju", setujuUsulan);
+router.get("/verifikasi/:id/show", getUsulanWithVerifikasiandUserbyId);
 
 // Dokumen
 router.post("/dokumen", createDokumen);
