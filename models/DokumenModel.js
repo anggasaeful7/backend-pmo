@@ -6,10 +6,6 @@ const { DataTypes } = Sequelize;
 const Dokumen = db.define(
   "dokumen",
   {
-    id_usulan: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     id_verifikasi: {
       type: DataTypes.INTEGER,
       allowNull: false,

@@ -187,30 +187,31 @@ export const showUsulanAplikasi = async (req, res) => {
 export const getUsulanWithVerifikasiandUserWithTipe = async (req, res) => {
   try {
     const tipe = req.params.tipe;
-    const usulan = await Users.findAll({
+    const usulan = await Usulan.findAll({
       where: { deletedAt: null },
-      attributes: ["id", "nama", "skpd"],
+      attributes: ["id", "createdAt", "updatedAt"],
       include: [
         {
-          model: Usulan,
-          attributes: ["id", "createdAt", "updatedAt"],
-          include: [
-            {
-              model: Verifikasi,
-              attributes: [
-                "id",
-                "status",
-                "tipe",
-                "waktu_verifikasi",
-                "createdAt",
-                "UpdatedAt",
-              ],
-              where: { tipe: tipe },
-            },
+          model: Users,
+          attributes: ["id", "nama", "skpd"],
+        },
+        {
+          model: Verifikasi,
+          attributes: [
+            "id",
+            "status",
+            "tipe",
+            "waktu_verifikasi",
+            "createdAt",
+            "UpdatedAt",
           ],
+          where: {
+            tipe: tipe,
+          },
         },
       ],
     });
+
     res.json({
       status: "success",
       message: "Usulan successfully loaded",
@@ -225,6 +226,40 @@ export const getUsulanWithVerifikasiandUser = async (req, res) => {
   try {
     const usulan = await Usulan.findAll({
       where: { deletedAt: null },
+      attributes: ["id", "createdAt", "updatedAt"],
+      include: [
+        {
+          model: Users,
+          attributes: ["id", "nama", "skpd"],
+        },
+        {
+          model: Verifikasi,
+          attributes: [
+            "id",
+            "status",
+            "tipe",
+            "waktu_verifikasi",
+            "createdAt",
+            "UpdatedAt",
+          ],
+        },
+      ],
+    });
+    res.json({
+      status: "success",
+      message: "Usulan successfully loaded",
+      data: usulan,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUsulanWithVerifikasiandUserbyId = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const usulan = await Usulan.findOne({
+      where: { deletedAt: null, id: id },
       attributes: ["id", "createdAt", "updatedAt"],
       include: [
         {
@@ -304,7 +339,7 @@ export const klikDetailUsulan = async (req, res) => {
 export const setujuUsulan = async (req, res) => {
   // Update createdAt Verifikasi
   const id = req.params.id;
-  const { tipe, status } = req.body;
+  const { tipe, status, nama, nip, jabatan } = req.body;
   // Ambil waktu saat ini tanggal,bulan,tahun
   const date = new Date();
   const tahun = date.getFullYear();
@@ -326,6 +361,18 @@ export const setujuUsulan = async (req, res) => {
         },
       }
     );
+
+    if (tipe === "analisis_kelayakan") {
+      axios.post("http://localhost:1212/dokumen", {
+        id_verifikasi: verifikasi.id,
+        tipe: "verfikasi_administrasi",
+        nama: nama,
+        nip: nip,
+        jabatan: jabatan,
+        status: "Direkomendasi",
+      });
+    }
+
     res.json({
       status: "success",
       message: "Verifikasi successfully updated",
