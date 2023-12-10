@@ -260,7 +260,6 @@ export const getUsulanWithVerifikasiandUserbyId = async (req, res) => {
     const id = req.params.id;
     const usulan = await Usulan.findOne({
       where: { deletedAt: null, id: id },
-      attributes: ["id", "createdAt", "updatedAt"],
       include: [
         {
           model: Users,
