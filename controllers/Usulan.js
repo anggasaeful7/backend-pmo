@@ -93,7 +93,7 @@ export const createUsulanAplikasi = async (req, res) => {
     axios.post("http://localhost:1212/verifikasi", {
       id_usulan: usulan.id,
       status: "pending",
-      tipe: "verifikasi administrasi",
+      tipe: "verifikasi_administrasi",
     });
 
     res.status(201).json({
