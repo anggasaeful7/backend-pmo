@@ -19,7 +19,7 @@ try {
 }
 Users.hasMany(Usulan, { foreignKey: "id_user" });
 Usulan.belongsTo(Users, { foreignKey: "id_user" });
-Usulan.hasOne(Verifikasi, { foreignKey: "id_usulan" });
+Usulan.hasMany(Verifikasi, { foreignKey: "id_usulan" });
 Verifikasi.belongsTo(Usulan, { foreignKey: "id_usulan" });
 Verifikasi.hasMany(Dokumen, { foreignKey: "id_verifikasi" });
 Dokumen.belongsTo(Verifikasi, { foreignKey: "id_verifikasi" });

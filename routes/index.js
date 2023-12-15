@@ -6,6 +6,7 @@ import upload from "../middleware/multer.js";
 import {
   createUsulanAplikasi,
   deleteUsulanAplikasi,
+  fullUsulanWithVerifikasiandUserbyId,
   getUsulanAplikasi,
   getUsulanAplikasiById,
   getUsulanWithVerifikasiandUser,
@@ -13,10 +14,10 @@ import {
   getUsulanWithVerifikasiandUserbyId,
   klikDetailUsulan,
   setujuUsulan,
-  showUsulanAplikasi,
 } from "../controllers/Usulan.js";
 import { createVerifikasi } from "../controllers/Verifikasi.js";
 import { createDokumen } from "../controllers/Dokumen.js";
+import { showUsulanAplikasi } from "../controllers/Show.js";
 
 const router = express.Router();
 
@@ -38,8 +39,9 @@ router.post(
 );
 router.get("/usulan/:id", getUsulanAplikasiById);
 router.get("/usulan/show", verifyToken, showUsulanAplikasi);
-router.get("/usulanver/:tipe", getUsulanWithVerifikasiandUserWithTipe); //
-router.get("/usulanver", getUsulanWithVerifikasiandUser); //
+router.get("/usulanver/:tipe", getUsulanWithVerifikasiandUserWithTipe);
+router.get("/usulanver", getUsulanWithVerifikasiandUser);
+router.get("/verifikasi/:id/full", fullUsulanWithVerifikasiandUserbyId);
 router.delete("/usulan/:id", verifyToken, deleteUsulanAplikasi);
 
 // Verifikasi

@@ -37,7 +37,7 @@ const Verifikasi = db.define(
     },
   },
   {
-    paranoid: true,
+    paranoid: false,
     freezeTableName: true,
   }
 );

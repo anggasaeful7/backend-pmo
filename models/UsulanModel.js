@@ -65,7 +65,7 @@ const Usulan = db.define(
       allowNull: true,
     },
     kategori_klaster: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     klaster_lainnya: {
@@ -73,7 +73,7 @@ const Usulan = db.define(
       allowNull: true,
     },
     bahasa_pemrograman: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     bahasa_pemrograman_lainnya: {
@@ -81,15 +81,15 @@ const Usulan = db.define(
       allowNull: true,
     },
     jenis_platform: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     database: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     database_lainnya: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: true,
     },
     penyimpanan: {

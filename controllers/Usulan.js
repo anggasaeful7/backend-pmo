@@ -3,6 +3,7 @@ import Usulan from "../models/UsulanModel.js";
 import Users from "../models/UserModel.js";
 import Verifikasi from "../models/VerifikasiModel.js";
 import axios from "axios";
+import { Sequelize } from "sequelize";
 
 export const createUsulanAplikasi = async (req, res) => {
   // `id_user`  , `jenis_pengajuan`  , `nama_aplikasi`  , `latar_belakang`  , `tujuan`  , `kepemilikan`  , `teknis`  , `npengembang1` , `npengembang2` , `lama_pengembangan`  , `sumber_anggaran`  , `besar_anggaran`  , `sumberdanalain` , `kategori_klaster`  , `klaster_lainnya` , `bahasa_pemrograman`  , `bahasa_pemrograman_lainnya` , `jenis_platform`  , `database` (10) , `database_lainnya` , `penyimpanan`  , `lokasi_server` , `lokasi_cloud` , `alasan_penyimpanan`  , `spesifikasi_cpu`  , `spesifikasi_ram`  , `spesifikasi_memory`  , `sumber_data`  , `integrasi`  , `alasan_integrasi`  , `format_penukaran`  , `surat_skpd`  , `lampiran_kak`  , `pertanyaan1`  , `pertanyaan2`  , `pertanyaan3`
@@ -138,52 +139,6 @@ export const getUsulanAplikasiById = async (req, res) => {
   }
 };
 
-export const showUsulanAplikasi = async (req, res) => {
-  const token = req.headers.authorization;
-  // Memsihkan token dari prefix 'Bearer '
-  const cleanToken = token.replace("Bearer ", "");
-
-  try {
-    if (!cleanToken) {
-      // Token tidak ditemukan, kirim respons 401 (Unauthenticated)
-      return res.status(401).json({ message: "Token tidak ditemukan" });
-    }
-    jwt.verify(cleanToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        // Token tidak valid, kirim respons 401 (Unauthenticated)
-        return res.status(401).json({ message: "Token tidak valid" });
-      }
-
-      // Token valid, 'decoded' berisi informasi yang telah didekode, termasuk userId
-      const userId = decoded.id_user;
-
-      // Gunakan userId untuk mengambil laporan dari database
-      Usulan.findAll({
-        where: {
-          id_user: userId,
-          deletedAt: null,
-        },
-      })
-        .then((laporan) => {
-          // Kirim respons dengan data laporan
-          res.json({
-            status: "success",
-            message: "Usulan berhasil dimuat",
-            data: laporan,
-          });
-        })
-        .catch((error) => {
-          // Tangani kesalahan jika terjadi kesalahan saat mengambil laporan
-          res
-            .status(500)
-            .json({ message: "Terjadi kesalahan saat mengambil usulan" });
-        });
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const getUsulanWithVerifikasiandUserWithTipe = async (req, res) => {
   try {
     const tipe = req.params.tipe;
@@ -202,11 +157,13 @@ export const getUsulanWithVerifikasiandUserWithTipe = async (req, res) => {
             "status",
             "tipe",
             "waktu_verifikasi",
+            "catatan",
             "createdAt",
             "UpdatedAt",
           ],
           where: {
             tipe: tipe,
+            deletedAt: null,
           },
         },
       ],
@@ -238,10 +195,12 @@ export const getUsulanWithVerifikasiandUser = async (req, res) => {
             "id",
             "status",
             "tipe",
+            "catatan",
             "waktu_verifikasi",
             "createdAt",
             "UpdatedAt",
           ],
+          where: { deletedAt: null },
         },
       ],
     });
@@ -272,8 +231,45 @@ export const getUsulanWithVerifikasiandUserbyId = async (req, res) => {
             "status",
             "tipe",
             "waktu_verifikasi",
+            "catatan",
             "createdAt",
             "UpdatedAt",
+          ],
+          where: { deletedAt: null },
+        },
+      ],
+    });
+    res.json({
+      status: "success",
+      message: "Usulan successfully loaded",
+      data: usulan,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fullUsulanWithVerifikasiandUserbyId = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const usulan = await Usulan.findOne({
+      where: { id: id },
+      include: [
+        {
+          model: Users,
+          attributes: ["id", "nama", "skpd"],
+        },
+        {
+          model: Verifikasi,
+          attributes: [
+            "id",
+            "status",
+            "tipe",
+            "waktu_verifikasi",
+            "catatan",
+            "createdAt",
+            "UpdatedAt",
+            "deletedAt",
           ],
         },
       ],
@@ -338,7 +334,7 @@ export const klikDetailUsulan = async (req, res) => {
 export const setujuUsulan = async (req, res) => {
   // Update createdAt Verifikasi
   const id = req.params.id;
-  const { tipe, status, nama, nip, jabatan } = req.body;
+  const { id_usulan, tipe, status, catatan, nama, nip, jabatan } = req.body;
   // Ambil waktu saat ini tanggal,bulan,tahun
   const date = new Date();
   const tahun = date.getFullYear();
@@ -350,9 +346,10 @@ export const setujuUsulan = async (req, res) => {
   try {
     const verifikasi = await Verifikasi.update(
       {
-        tipe: tipe,
         status: status,
-        updateAt: waktu_verifikasi,
+        catatan: catatan,
+        updatedAt: waktu_verifikasi,
+        deletedAt: Sequelize.fn("NOW"),
       },
       {
         where: {
@@ -361,16 +358,11 @@ export const setujuUsulan = async (req, res) => {
       }
     );
 
-    if (tipe === "analisis_kelayakan") {
-      axios.post("http://localhost:1212/dokumen", {
-        id_verifikasi: verifikasi.id,
-        tipe: "verfikasi_administrasi",
-        nama: nama,
-        nip: nip,
-        jabatan: jabatan,
-        status: "Direkomendasi",
-      });
-    }
+    await axios.post("http://localhost:1212/verifikasi", {
+      id_usulan: id_usulan,
+      status: "pending",
+      tipe: tipe,
+    });
 
     res.json({
       status: "success",
