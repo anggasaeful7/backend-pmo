@@ -16,8 +16,12 @@ import {
   setujuUsulan,
 } from "../controllers/Usulan.js";
 import { createVerifikasi } from "../controllers/Verifikasi.js";
-import { createDokumen } from "../controllers/Dokumen.js";
-import { showUsulanAplikasi, showCatatanById } from "../controllers/Show.js";
+import { cetakDokumen, createDokumen } from "../controllers/Dokumen.js";
+import {
+  showUsulanAplikasi,
+  showCatatanById,
+  showCatatanByTipe,
+} from "../controllers/Show.js";
 
 const router = express.Router();
 
@@ -52,8 +56,10 @@ router.get("/verifikasi/:id/show", getUsulanWithVerifikasiandUserbyId);
 
 // Dokumen
 router.post("/dokumen", createDokumen);
+router.get("/dokumen/cetak", cetakDokumen);
 
 // Show
 router.get("/show/:id/:tipe", showCatatanById);
+router.get("/show/:id/:tipe/catatan", showCatatanByTipe);
 
 export default router;

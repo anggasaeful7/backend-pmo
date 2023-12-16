@@ -14,11 +14,13 @@
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "docxtemplater": "^3.42.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.2",
+    "pizzip": "^3.1.4",
     "sequelize": "^6.8.0"
   }
 }

@@ -8,6 +8,11 @@ import Users from "./models/UserModel.js";
 import Usulan from "./models/UsulanModel.js";
 import Verifikasi from "./models/VerifikasiModel.js";
 import Dokumen from "./models/DokumenModel.js";
+import fs from "fs";
+import path from "path";
+import PizZip from "pizzip";
+import Docxtemplater from "docxtemplater";
+
 dotenv.config();
 const app = express();
 
@@ -29,11 +34,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(router);
 app.use("/dokumen", express.static("public/dokumen"));
+app.use("/surat", express.static("public/surat"));
+app.use("/template", express.static("public/template"));
 
 // Users.sync();
 // Usulan.sync();
 // Verifikasi.sync();
 // Dokumen.sync();
-Dokumen.sync();
+// Dokumen.sync();
 
 app.listen(1212, () => console.log("Server running at port 1212"));

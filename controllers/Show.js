@@ -1,6 +1,8 @@
 import Usulan from "../models/UsulanModel.js";
 import jwt from "jsonwebtoken";
 import Verifikasi from "../models/VerifikasiModel.js";
+import e from "express";
+import { Op } from "sequelize";
 
 export const showUsulanAplikasi = async (req, res) => {
   //   const token = req.headers.authorization;
@@ -63,6 +65,33 @@ export const showCatatanById = async (req, res) => {
           model: Verifikasi,
           attributes: ["id", "tipe", "catatan"],
           where: { tipe: tipe },
+        },
+      ],
+    });
+    res.json({
+      status: "success",
+      message: "Usulan successfully loaded",
+      data: usulan,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const showCatatanByTipe = async (req, res) => {
+  // find catatan by tipe like analisis_teknis
+  const tipe = req.params.tipe;
+  const id = req.params.id;
+
+  try {
+    const usulan = await Usulan.findAll({
+      where: { id: id, deletedAt: null },
+      attributes: ["id"],
+      include: [
+        {
+          model: Verifikasi,
+          attributes: ["id", "tipe", "catatan"],
+          where: { tipe: { [Op.like]: `%${tipe}%` } },
         },
       ],
     });
