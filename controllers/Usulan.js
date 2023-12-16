@@ -234,6 +234,7 @@ export const getUsulanWithVerifikasiandUserbyId = async (req, res) => {
             "catatan",
             "createdAt",
             "UpdatedAt",
+            "deletedAt",
           ],
           where: { deletedAt: null },
         },
@@ -303,17 +304,11 @@ export const klikDetailUsulan = async (req, res) => {
   // Update createdAt Verifikasi
   const id = req.params.id;
   // Ambil waktu saat ini tanggal,bulan,tahun
-  const date = new Date();
-  const tahun = date.getFullYear();
-  const bulan = date.getMonth();
-  const tanggal = date.getDate();
-
-  const waktu_verifikasi = tanggal + "-" + bulan + "-" + tahun;
 
   try {
     const verifikasi = await Verifikasi.update(
       {
-        waktu_verifikasi: waktu_verifikasi,
+        waktu_verifikasi: Sequelize.fn("NOW"),
       },
       {
         where: {
