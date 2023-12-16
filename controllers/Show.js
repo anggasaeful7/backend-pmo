@@ -1,5 +1,6 @@
 import Usulan from "../models/UsulanModel.js";
 import jwt from "jsonwebtoken";
+import Verifikasi from "../models/VerifikasiModel.js";
 
 export const showUsulanAplikasi = async (req, res) => {
   //   const token = req.headers.authorization;
@@ -48,4 +49,29 @@ export const showUsulanAplikasi = async (req, res) => {
     message: "Usulan berhasil dimuat",
     data: "Usulan",
   });
+};
+
+export const showCatatanById = async (req, res) => {
+  const id = req.params.id;
+  const tipe = req.params.tipe;
+  try {
+    const usulan = await Usulan.findOne({
+      where: { id: id, deletedAt: null },
+      attributes: ["id"],
+      include: [
+        {
+          model: Verifikasi,
+          attributes: ["id", "tipe", "catatan"],
+          where: { tipe: tipe },
+        },
+      ],
+    });
+    res.json({
+      status: "success",
+      message: "Usulan successfully loaded",
+      data: usulan,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

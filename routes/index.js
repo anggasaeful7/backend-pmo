@@ -17,7 +17,7 @@ import {
 } from "../controllers/Usulan.js";
 import { createVerifikasi } from "../controllers/Verifikasi.js";
 import { createDokumen } from "../controllers/Dokumen.js";
-import { showUsulanAplikasi } from "../controllers/Show.js";
+import { showUsulanAplikasi, showCatatanById } from "../controllers/Show.js";
 
 const router = express.Router();
 
@@ -52,5 +52,8 @@ router.get("/verifikasi/:id/show", getUsulanWithVerifikasiandUserbyId);
 
 // Dokumen
 router.post("/dokumen", createDokumen);
+
+// Show
+router.get("/show/:id/:tipe", showCatatanById);
 
 export default router;
