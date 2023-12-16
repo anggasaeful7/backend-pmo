@@ -34,5 +34,6 @@ app.use("/dokumen", express.static("public/dokumen"));
 // Usulan.sync();
 // Verifikasi.sync();
 // Dokumen.sync();
+Dokumen.sync();
 
 app.listen(1212, () => console.log("Server running at port 1212"));
