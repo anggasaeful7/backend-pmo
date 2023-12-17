@@ -136,3 +136,33 @@ export const deleteUser = async (req, res) => {
     console.log(error);
   }
 };
+
+export const updateUser = async (req, res) => {
+  const id = req.params.id;
+  const { name, email, username, hak_akses, password, confPassword } = req.body;
+  if (password !== confPassword)
+    return res
+      .status(400)
+      .json({ msg: "Password dan Confirm Password tidak cocok" });
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(password, salt);
+  try {
+    await Users.update(
+      {
+        nama: name,
+        username: username,
+        email: email,
+        hak_akses: hak_akses,
+        password: hashPassword,
+      },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    res.json({ msg: "Update Berhasil" });
+  } catch (error) {
+    console.log(error);
+  }
+};

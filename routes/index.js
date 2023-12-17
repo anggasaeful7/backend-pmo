@@ -5,6 +5,7 @@ import {
   Login,
   Logout,
   deleteUser,
+  updateUser,
 } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
@@ -37,6 +38,7 @@ router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 router.delete("/users/:id", deleteUser);
+router.put("/users/:id", updateUser);
 
 // usulan
 router.get("/usulan", getUsulanAplikasi);

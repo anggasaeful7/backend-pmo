@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import Verifikasi from "../models/VerifikasiModel.js";
 import e from "express";
 import { Op } from "sequelize";
+import axios from "axios";
 
 export const showUsulanAplikasi = async (req, res) => {
   //   const token = req.headers.authorization;
@@ -95,6 +96,27 @@ export const showCatatanByTipe = async (req, res) => {
         },
       ],
     });
+
+    if (usulan.length > 0) {
+      const analisisTeknisDiterima = usulan[0].verifikasi_aplikasis.every(
+        (analisis) => {
+          return analisis.status === "diterima";
+        }
+      );
+
+      if (analisisTeknisDiterima) {
+        const id_verifikasi = usulan[0].verifikasi_aplikasis[0].id;
+        console.log("Analisis teknis diterima");
+        await axios.post(
+          `http://localhost:1212/verifikasi/${id_verifikasi}/setuju`,
+          {
+            id_usulan: id,
+            tipe: "validasi_teknis",
+            status: "pending",
+          }
+        );
+      }
+    }
 
     res.json({
       status: "success",
