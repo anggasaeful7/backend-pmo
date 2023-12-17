@@ -25,7 +25,7 @@ import {
 
 const router = express.Router();
 
-router.get("/users", verifyToken, getUsers);
+router.get("/users", getUsers);
 router.post("/users", Register);
 router.post("/login", Login);
 router.get("/token", refreshToken);
