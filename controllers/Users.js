@@ -122,3 +122,17 @@ export const Logout = async (req, res) => {
   res.clearCookie("refreshToken");
   return res.sendStatus(200).json({ message: "Logout Berhasil", status: true });
 };
+
+export const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Users.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.json({ msg: "User berhasil dihapus" });
+  } catch (error) {
+    console.log(error);
+  }
+};
