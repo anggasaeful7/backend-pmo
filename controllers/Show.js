@@ -104,6 +104,12 @@ export const showCatatanByTipe = async (req, res) => {
         }
       );
 
+      const validasiDiterima = usulan[0].verifikasi_aplikasis.every(
+        (validasi) => {
+          return validasi.status === "diterima";
+        }
+      );
+
       if (analisisTeknisDiterima) {
         const id_verifikasi = usulan[0].verifikasi_aplikasis[0].id;
         console.log("Analisis teknis diterima");
@@ -112,6 +118,19 @@ export const showCatatanByTipe = async (req, res) => {
           {
             id_usulan: id,
             tipe: "validasi_teknis",
+            status: "pending",
+          }
+        );
+      }
+
+      if (validasiDiterima) {
+        const id_verifikasi = usulan[0].verifikasi_aplikasis[0].id;
+        console.log("Validasi teknis diterima");
+        await axios.post(
+          `http://localhost:1212/verifikasi/${id_verifikasi}/setuju`,
+          {
+            id_usulan: id,
+            tipe: "rekomendasi",
             status: "pending",
           }
         );
