@@ -90,7 +90,7 @@ export const showCatatanByTipe = async (req, res) => {
       include: [
         {
           model: Verifikasi,
-          attributes: ["id", "tipe", "catatan"],
+          attributes: ["id", "tipe", "catatan", "status"],
           where: { tipe: { [Op.like]: `%${tipe}%` } },
         },
       ],
