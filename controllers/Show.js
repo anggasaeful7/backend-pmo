@@ -95,6 +95,7 @@ export const showCatatanByTipe = async (req, res) => {
         },
       ],
     });
+
     res.json({
       status: "success",
       message: "Usulan successfully loaded",

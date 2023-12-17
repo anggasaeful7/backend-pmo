@@ -36,7 +36,7 @@ router.post("/users", Register);
 router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
-router.delete("/users:id", deleteUser);
+router.delete("/users/:id", deleteUser);
 
 // usulan
 router.get("/usulan", getUsulanAplikasi);
