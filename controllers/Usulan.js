@@ -353,7 +353,7 @@ export const setujuUsulan = async (req, res) => {
       }
     );
 
-    if (tipe == "validasi_kelayakan") {
+    if (tipe == "analisis_teknis") {
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_aplikasi",
@@ -381,6 +381,22 @@ export const setujuUsulan = async (req, res) => {
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_infrastruktur",
+        status: "pending",
+      });
+    } else if (tipe == "validasi_teknis") {
+      await axios.post("http://localhost:1212/verifikasi", {
+        id_usulan: id_usulan,
+        tipe: "validasi_teknis_pki",
+        status: "pending",
+      });
+      await axios.post("http://localhost:1212/verifikasi", {
+        id_usulan: id_usulan,
+        tipe: "validasi_teknis_data",
+        status: "pending",
+      });
+      await axios.post("http://localhost:1212/verifikasi", {
+        id_usulan: id_usulan,
+        tipe: "validasi_teknis_infrastruktur",
         status: "pending",
       });
     } else {
