@@ -13,6 +13,21 @@ export const getUsers = async (req, res) => {
   }
 };
 
+export const getUsersbyId = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const users = await Users.findAll({
+      where: {
+        id: id,
+      },
+      attributes: ["id", "nama", "email", "username", "hak_akses"],
+    });
+    res.json(users);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const Register = async (req, res) => {
   const { name, email, username, hak_akses, password, confPassword } = req.body;
   if (password !== confPassword)
