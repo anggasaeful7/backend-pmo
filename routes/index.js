@@ -40,7 +40,7 @@ router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 router.delete("/users/:id", deleteUser);
 router.put("/users/:id", updateUser);
-router.put("/users/:id", getUsersbyId);
+router.get("/users/:id", getUsersbyId);
 
 // usulan
 router.get("/usulan", getUsulanAplikasi);
