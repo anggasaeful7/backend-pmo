@@ -119,13 +119,17 @@ export const Login = async (req, res) => {
 export const Logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(204);
+
   const user = await Users.findAll({
     where: {
       refresh_token: refreshToken,
     },
   });
+
   if (!user[0]) return res.sendStatus(204);
+
   const userId = user[0].id;
+
   await Users.update(
     { refresh_token: null },
     {
@@ -134,8 +138,9 @@ export const Logout = async (req, res) => {
       },
     }
   );
+
   res.clearCookie("refreshToken");
-  return res.sendStatus(200).json({ message: "Logout Berhasil", status: true });
+  res.status(200).json({ message: "Logout Berhasil", status: true }); // Menggunakan res.status(200).json() untuk mengirim tanggapan JSON
 };
 
 export const deleteUser = async (req, res) => {

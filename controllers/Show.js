@@ -118,7 +118,7 @@ export const showCatatanByTipe = async (req, res) => {
           {
             id_usulan: id,
             tipe: "validasi_teknis",
-            status: "pending",
+            status: "diterima",
           }
         );
       }

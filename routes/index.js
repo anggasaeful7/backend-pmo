@@ -37,7 +37,7 @@ router.get("/users", getUsers);
 router.post("/users", Register);
 router.post("/login", Login);
 router.get("/token", refreshToken);
-router.delete("/logout", Logout);
+router.delete("/logout", verifyToken, Logout);
 router.delete("/users/:id", deleteUser);
 router.put("/users/:id", updateUser);
 router.get("/users/:id", getUsersbyId);
