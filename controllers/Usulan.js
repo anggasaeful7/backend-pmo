@@ -358,35 +358,30 @@ export const setujuUsulan = async (req, res) => {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_aplikasi",
         status: "pending",
-        tipe: tipe,
       });
 
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_keamanan",
         status: "pending",
-        tipe: tipe,
       });
 
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_integrasi",
         status: "pending",
-        tipe: tipe,
       });
 
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_data",
         status: "pending",
-        tipe: tipe,
       });
 
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,
         tipe: "analisis_teknis_infrastruktur",
         status: "pending",
-        tipe: tipe,
       });
     } else {
       await axios.post("http://localhost:1212/verifikasi", {
