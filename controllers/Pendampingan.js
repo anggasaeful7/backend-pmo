@@ -9,6 +9,7 @@ export const createPendampingan = async (req, res) => {
     fungsional_lainnya,
     pentest,
     pentest_lainnya,
+    resume,
   } = req.body;
   try {
     const pendampingan = await Pendampingan.create({
@@ -19,6 +20,7 @@ export const createPendampingan = async (req, res) => {
       fungsional_lainnya,
       pentest,
       pentest_lainnya,
+      resume,
     });
     res.json({
       status: "success",

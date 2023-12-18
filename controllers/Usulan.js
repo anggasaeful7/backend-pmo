@@ -343,6 +343,7 @@ export const setujuUsulan = async (req, res) => {
     fungsional_lainnya,
     pentest,
     pentest_lainnya,
+    resume,
   } = req.body;
   // Ambil waktu saat ini tanggal,bulan,tahun
   const date = new Date();
@@ -437,6 +438,7 @@ export const setujuUsulan = async (req, res) => {
         api_lainnya: api_lainnya,
         pentest: pentest,
         pentest_lainnya: pentest_lainnya,
+        resume: resume,
       });
       await axios.post("http://localhost:1212/verifikasi", {
         id_usulan: id_usulan,

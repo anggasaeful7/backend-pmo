@@ -32,6 +32,10 @@ const Pendampingan = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    resume: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
