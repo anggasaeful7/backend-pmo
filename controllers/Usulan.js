@@ -401,6 +401,12 @@ export const setujuUsulan = async (req, res) => {
       });
     } else if (tipe == "") {
       console.log("Tipe tidak ada");
+    } else {
+      await axios.post("http://localhost:1212/verifikasi", {
+        id_usulan: id_usulan,
+        tipe: tipe,
+        status: "pending",
+      });
     }
 
     res.json({
