@@ -4,14 +4,13 @@ import sequelize from "../config/Database.js";
 const Pendampingan = sequelize.define(
   "Pendampingan",
   {
-    id_pendampingan: {
+    id_usulan: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+      allowNull: false,
     },
     api: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     api_lainnya: {
       type: DataTypes.STRING,
@@ -19,7 +18,7 @@ const Pendampingan = sequelize.define(
     },
     fungsional: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     fungsional_lainnya: {
       type: DataTypes.STRING,
@@ -27,7 +26,7 @@ const Pendampingan = sequelize.define(
     },
     pentest: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     pentest_lainnya: {
       type: DataTypes.STRING,

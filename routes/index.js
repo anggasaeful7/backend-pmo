@@ -30,6 +30,7 @@ import {
   showCatatanById,
   showCatatanByTipe,
 } from "../controllers/Show.js";
+import { createPendampingan } from "../controllers/Pendampingan.js";
 
 const router = express.Router();
 
@@ -68,6 +69,9 @@ router.get("/verifikasi/:id/show", getUsulanWithVerifikasiandUserbyId);
 // Dokumen
 router.post("/dokumen", createDokumen);
 router.get("/dokumen/cetak", cetakDokumen);
+
+// Pendampingan
+router.post("/pendampingan", createPendampingan);
 
 // Show
 router.get("/show/:id/:tipe", showCatatanById);

@@ -41,6 +41,6 @@ app.use("/template", express.static("public/template"));
 // Verifikasi.sync();
 // Dokumen.sync();
 // Dokumen.sync();
-// Pendampingan.sync();
+Pendampingan.sync();
 
 app.listen(1212, () => console.log("Server running at port 1212"));

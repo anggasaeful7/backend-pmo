@@ -329,7 +329,21 @@ export const klikDetailUsulan = async (req, res) => {
 export const setujuUsulan = async (req, res) => {
   // Update createdAt Verifikasi
   const id = req.params.id;
-  const { id_usulan, tipe, status, catatan, nama, nip, jabatan } = req.body;
+  const {
+    id_usulan,
+    tipe,
+    status,
+    catatan,
+    nama,
+    nip,
+    jabatan,
+    api,
+    api_lainnya,
+    fungsional,
+    fungsional_lainnya,
+    pentest,
+    pentest_lainnya,
+  } = req.body;
   // Ambil waktu saat ini tanggal,bulan,tahun
   const date = new Date();
   const tahun = date.getFullYear();
@@ -398,6 +412,25 @@ export const setujuUsulan = async (req, res) => {
         id_usulan: id_usulan,
         tipe: "validasi_teknis_infrastruktur",
         status: "pending",
+      });
+    } else if (tipe == "verifikasi_administrasi") {
+      await axios.post("http://localhost:1212/dokumen", {
+        id_usulan: id_usulan,
+        id_verifikasi: id,
+        nama: nama,
+        nip: nip,
+        jabatan: jabatan,
+        status: status,
+      });
+    } else if (tipe == "pendampingan") {
+      await axios.post("http://localhost:1212/pendampingan", {
+        id_usulan: id_usulan,
+        fungsional: fungsional,
+        fungsional_lainnya: fungsional_lainnya,
+        api: api,
+        api_lainnya: api_lainnya,
+        pentest: pentest,
+        pentest_lainnya: pentest_lainnya,
       });
     } else if (tipe == "") {
       console.log("Tipe tidak ada");

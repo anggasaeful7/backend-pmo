@@ -11,12 +11,12 @@ export const createDokumen = async (req, res) => {
       req.body;
     const dokumen = await Dokumen.create({
       id_usulan,
-      id_verifikasi,
-      tipe,
-      nama,
-      nip,
-      jabatan,
-      status,
+      api,
+      api_lainnya,
+      fungsional,
+      fungsional_lainnya,
+      pentest,
+      pentest_lainnya,
     });
     res.json({
       status: "success",
