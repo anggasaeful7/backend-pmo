@@ -399,12 +399,8 @@ export const setujuUsulan = async (req, res) => {
         tipe: "validasi_teknis_infrastruktur",
         status: "pending",
       });
-    } else {
-      await axios.post("http://localhost:1212/verifikasi", {
-        id_usulan: id_usulan,
-        status: "pending",
-        tipe: tipe,
-      });
+    } else if (tipe == "") {
+      console.log("Tipe tidak ada");
     }
 
     res.json({
