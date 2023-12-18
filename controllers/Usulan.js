@@ -422,7 +422,13 @@ export const setujuUsulan = async (req, res) => {
         jabatan: jabatan,
         status: status,
       });
-    } else if (tipe == "pendampingan") {
+
+      await axios.post("http://localhost:1212/verifikasi", {
+        id_usulan: id_usulan,
+        tipe: tipe,
+        status: "pending",
+      });
+    } else if (tipe == "hosting") {
       await axios.post("http://localhost:1212/pendampingan", {
         id_usulan: id_usulan,
         fungsional: fungsional,
@@ -431,6 +437,11 @@ export const setujuUsulan = async (req, res) => {
         api_lainnya: api_lainnya,
         pentest: pentest,
         pentest_lainnya: pentest_lainnya,
+      });
+      await axios.post("http://localhost:1212/verifikasi", {
+        id_usulan: id_usulan,
+        tipe: tipe,
+        status: "pending",
       });
     } else if (tipe == "") {
       console.log("Tipe tidak ada");
