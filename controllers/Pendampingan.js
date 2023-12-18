@@ -2,6 +2,7 @@ import Pendampingan from "../models/PendampinganModel.js";
 
 export const createPendampingan = async (req, res) => {
   const {
+    id_usulan,
     api,
     api_lainnya,
     fungsional,
@@ -11,6 +12,7 @@ export const createPendampingan = async (req, res) => {
   } = req.body;
   try {
     const pendampingan = await Pendampingan.create({
+      id_usulan,
       api,
       api_lainnya,
       fungsional,
