@@ -37,7 +37,7 @@ const Usulan = db.define(
       allowNull: false,
     },
     teknis: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     npengembang1: {
@@ -93,7 +93,7 @@ const Usulan = db.define(
       allowNull: true,
     },
     penyimpanan: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     lokasi_server: {
@@ -149,15 +149,15 @@ const Usulan = db.define(
       allowNull: false,
     },
     pertanyaan1: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     pertanyaan2: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     pertanyaan3: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
 

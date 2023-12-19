@@ -68,7 +68,7 @@ router.get("/verifikasi/:id/show", getUsulanWithVerifikasiandUserbyId);
 
 // Dokumen
 router.post("/dokumen", createDokumen);
-router.get("/dokumen/cetak", cetakDokumen);
+router.get("/dokumen/cetak/:id", cetakDokumen);
 
 // Pendampingan
 router.post("/pendampingan", createPendampingan);

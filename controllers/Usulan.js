@@ -4,6 +4,8 @@ import Users from "../models/UserModel.js";
 import Verifikasi from "../models/VerifikasiModel.js";
 import axios from "axios";
 import { Sequelize } from "sequelize";
+import Dokumen from "../models/DokumenModel.js";
+import Pendampingan from "../models/PendampinganModel.js";
 
 export const createUsulanAplikasi = async (req, res) => {
   // `id_user`  , `jenis_pengajuan`  , `nama_aplikasi`  , `latar_belakang`  , `tujuan`  , `kepemilikan`  , `teknis`  , `npengembang1` , `npengembang2` , `lama_pengembangan`  , `sumber_anggaran`  , `besar_anggaran`  , `sumberdanalain` , `kategori_klaster`  , `klaster_lainnya` , `bahasa_pemrograman`  , `bahasa_pemrograman_lainnya` , `jenis_platform`  , `database` (10) , `database_lainnya` , `penyimpanan`  , `lokasi_server` , `lokasi_cloud` , `alasan_penyimpanan`  , `spesifikasi_cpu`  , `spesifikasi_ram`  , `spesifikasi_memory`  , `sumber_data`  , `integrasi`  , `alasan_integrasi`  , `format_penukaran`  , `surat_skpd`  , `lampiran_kak`  , `pertanyaan1`  , `pertanyaan2`  , `pertanyaan3`
@@ -258,7 +260,7 @@ export const fullUsulanWithVerifikasiandUserbyId = async (req, res) => {
       include: [
         {
           model: Users,
-          attributes: ["id", "nama", "skpd"],
+          attributes: ["id", "nama", "skpd", "no_hp"],
         },
         {
           model: Verifikasi,
@@ -271,6 +273,15 @@ export const fullUsulanWithVerifikasiandUserbyId = async (req, res) => {
             "createdAt",
             "UpdatedAt",
             "deletedAt",
+          ],
+          include: [
+            {
+              model: Dokumen,
+              attributes: ["id", "nama", "nip", "jabatan"],
+            },
+            {
+              model: Pendampingan,
+            },
           ],
         },
       ],
@@ -414,10 +425,11 @@ export const setujuUsulan = async (req, res) => {
         tipe: "validasi_teknis_infrastruktur",
         status: "pending",
       });
-    } else if (tipe == "verifikasi_administrasi") {
+    } else if (tipe == "analisis_kelayakan") {
       await axios.post("http://localhost:1212/dokumen", {
         id_usulan: id_usulan,
         id_verifikasi: id,
+        tipe: tipe,
         nama: nama,
         nip: nip,
         jabatan: jabatan,
