@@ -140,6 +140,22 @@ const Usulan = db.define(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
+    pic: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    no_hp: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    no_surat: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    tanggal_surat: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     surat_skpd: {
       type: DataTypes.STRING(255),
       allowNull: false,
