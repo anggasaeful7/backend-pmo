@@ -53,6 +53,14 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
   try {
     const { username, password } = req.body;
+    if (
+      !password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/)
+    ) {
+      res.status(400).json({
+        message:
+          "Password minimal 8 karakter yang terdiri dari huruf besar kecil angka dan karakter spesial",
+      });
+    }
     const user = await Users.findOne({
       where: {
         username: username,
