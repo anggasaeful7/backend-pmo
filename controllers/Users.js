@@ -53,14 +53,17 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    // Validate password
     if (
       !password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/)
     ) {
-      res.status(400).json({
+      return res.status(400).json({
         message:
           "Password minimal 8 karakter yang terdiri dari huruf besar kecil angka dan karakter spesial",
       });
     }
+
     const user = await Users.findOne({
       where: {
         username: username,
@@ -68,14 +71,14 @@ export const Login = async (req, res) => {
     });
 
     if (!user) {
-      res.status(400).json({
-        message: "username not found",
+      return res.status(400).json({
+        message: "Username not found",
       });
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Password not match",
       });
     }
@@ -120,7 +123,10 @@ export const Login = async (req, res) => {
 
     res.status(200).json({ accessToken: accessToken });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
   }
 };
 
