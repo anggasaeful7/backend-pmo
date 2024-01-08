@@ -31,6 +31,14 @@ import {
   showCatatanByTipe,
 } from "../controllers/Show.js";
 import { createPendampingan } from "../controllers/Pendampingan.js";
+import {
+  createAudit,
+  deleteAudit,
+  getAudit,
+  setujuUsulanAudit,
+  showAudit,
+  showAuditbyId,
+} from "../controllers/Audit.js";
 
 const router = express.Router();
 
@@ -76,5 +84,14 @@ router.post("/pendampingan", createPendampingan);
 // Show
 router.get("/show/:id/:tipe", showCatatanById);
 router.get("/show/:id/:tipe/catatan", showCatatanByTipe);
+
+// Audit
+router.get("/audit", showAudit);
+router.get("/audit/:id", showAuditbyId);
+router.put("/audit/:id/setuju", setujuUsulanAudit);
+router.get("/admin/audit", getAudit);
+router.post("/audit", upload.single("surat_skpd"), createAudit);
+router.put("/audit/:id", upload.single("surat_skpd"), createAudit);
+router.put("/audit/:id", deleteAudit);
 
 export default router;
