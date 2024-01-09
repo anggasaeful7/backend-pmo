@@ -39,6 +39,7 @@ import {
   setujuUsulanAudit,
   showAudit,
   showAuditbyId,
+  showAuditbytipe,
   showUsulan,
 } from "../controllers/Audit.js";
 
@@ -89,7 +90,7 @@ router.get("/show/:id/:tipe/catatan", showCatatanByTipe);
 
 // Audit
 router.get("/audit", showAudit);
-router.get("/audit/:tipe", showAudit);
+router.get("/audit/:tipe", showAuditbytipe);
 router.get("/audit/:id", showAuditbyId);
 router.put("/audit/:id/setuju", setujuUsulanAudit);
 router.get("/admin/audit", getAudit);
