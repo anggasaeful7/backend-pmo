@@ -39,6 +39,7 @@ import {
   setujuUsulanAudit,
   showAudit,
   showAuditbyId,
+  showUsulan,
 } from "../controllers/Audit.js";
 
 const router = express.Router();
@@ -63,7 +64,7 @@ router.post(
   createUsulanAplikasi
 );
 router.get("/usulan/:id", getUsulanAplikasiById);
-router.get("/usulan/show", verifyToken, showUsulanAplikasi);
+router.get("/usulan/show", verifyToken, showUsulan);
 router.get("/usulanver/:tipe", getUsulanWithVerifikasiandUserWithTipe);
 router.get("/usulanver", getUsulanWithVerifikasiandUser);
 router.get("/verifikasi/:id/full", fullUsulanWithVerifikasiandUserbyId);

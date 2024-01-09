@@ -3,6 +3,8 @@ import Users from "../models/UserModel.js";
 import Verifikasi from "../models/VerifikasiModel.js";
 import { Op, Sequelize } from "sequelize";
 import jwt from "jsonwebtoken";
+import axios from "axios";
+import Usulan from "../models/UsulanModel.js";
 
 export const getAudit = async (req, res) => {
   try {
@@ -251,6 +253,91 @@ export const showAudit = async (req, res) => {
 
       // Gunakan userId dan filterCriteria untuk mengambil laporan dari database
       Audit.findAll({
+        where: filterCriteria,
+        include: [
+          {
+            model: Users,
+            attributes: ["id", "nama", "skpd"],
+          },
+          {
+            model: Verifikasi,
+            attributes: [
+              "id",
+              "status",
+              "tipe",
+              "waktu_verifikasi",
+              "catatan",
+              "createdAt",
+              "UpdatedAt",
+            ],
+          },
+        ],
+      })
+        .then((laporan) => {
+          // Kirim respons dengan data laporan
+          res.json({
+            status: "success",
+            message: "Laporan berhasil dimuat",
+            data: laporan,
+          });
+        })
+        .catch((error) => {
+          // Tangani kesalahan jika terjadi kesalahan saat mengambil laporan
+          res
+            .status(500)
+            .json({ message: "Terjadi kesalahan saat mengambil Usulan Audit" });
+        });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const showUsulan = async (req, res) => {
+  const token = req.headers.authorization;
+  // Memsihkan token dari prefix 'Bearer '
+  const cleanToken = token.replace("Bearer ", "");
+
+  try {
+    if (!cleanToken) {
+      // Token tidak ditemukan, kirim respons 401 (Unauthenticated)
+      return res.status(401).json({ message: "Token tidak ditemukan" });
+    }
+    jwt.verify(cleanToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        // Token tidak valid, kirim respons 401 (Unauthenticated)
+        return res.status(401).json({ message: "Token tidak valid" });
+      }
+
+      // Token valid, 'decoded' berisi informasi yang telah didekode, termasuk userId
+      const id = decoded.userId;
+
+      // Dapatkan parameter bulan dan tahun dari query
+      const { month, year } = req.query;
+
+      // Bangun objek kriteria untuk filter
+      const filterCriteria = {
+        id_user: id,
+      };
+
+      // Tambahkan filter untuk bulan jika disediakan
+      if (month) {
+        filterCriteria.createdAt = {
+          [Op.and]: [
+            Sequelize.where(
+              Sequelize.fn("MONTH", Sequelize.col("created_at")),
+              month
+            ),
+            Sequelize.where(
+              Sequelize.fn("YEAR", Sequelize.col("created_at")),
+              year
+            ),
+          ],
+        };
+      }
+
+      // Gunakan userId dan filterCriteria untuk mengambil laporan dari database
+      Usulan.findAll({
         where: filterCriteria,
         include: [
           {
