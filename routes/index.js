@@ -35,6 +35,7 @@ import {
   createAudit,
   deleteAudit,
   getAudit,
+  getAuditbytipe,
   setujuUsulanAudit,
   showAudit,
   showAuditbyId,
@@ -87,9 +88,11 @@ router.get("/show/:id/:tipe/catatan", showCatatanByTipe);
 
 // Audit
 router.get("/audit", showAudit);
+router.get("/audit/:tipe", showAudit);
 router.get("/audit/:id", showAuditbyId);
 router.put("/audit/:id/setuju", setujuUsulanAudit);
 router.get("/admin/audit", getAudit);
+router.get("/admin/audit/:tipe", getAuditbytipe);
 router.post("/audit", upload.single("surat_skpd"), createAudit);
 router.put("/audit/:id", upload.single("surat_skpd"), createAudit);
 router.put("/audit/:id", deleteAudit);
